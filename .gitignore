@@ -4,7 +4,43 @@ __pycache__/
 build/
 dist/
 wheels/
-*.egg-info
+*.egg-info/
 
 # Virtual environments
-.venv
+.venv/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# dbt / Airflow local config that can hold credentials
+banking_dbt/.dbt/
+docker/config/airflow.cfg
+
+# Runtime data and logs
+logs/
+docker/logs/
+docker/minio/data/
+docker/postgres/data/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+
+# OS files
+.DS_Store
+Thumbs.db
