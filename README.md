@@ -405,7 +405,27 @@ Trigger:
 
 Required secrets referenced:
 
-- `GITHUB_TOKEN` (used for GHCR login in workflow)
+- `GHCR_TOKEN` (used for GHCR login in workflow)
+
+### GitHub repository settings
+
+Configure these settings in GitHub for stable CI/CD:
+
+- `Settings -> Actions -> General -> Workflow permissions`: set to `Read and write permissions`.
+- `Settings -> Branches`: add branch protection for `main`.
+- Enable `Require a pull request before merging`.
+- Enable `Require status checks to pass before merging` and select CI checks from workflow `CI` (for example job `validate`).
+
+### Verify published images
+
+After CD succeeds, confirm package tags exist in GHCR:
+
+- `ghcr.io/jbaguio27/banking-airflow`
+- `ghcr.io/jbaguio27/banking-superset`
+
+GitHub Packages page:
+
+- `https://github.com/users/jbaguio27/packages`
 
 ## Documentation and screenshots to add
 
