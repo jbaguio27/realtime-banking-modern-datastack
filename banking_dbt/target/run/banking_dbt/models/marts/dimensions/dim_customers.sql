@@ -1,0 +1,30 @@
+
+  
+    
+
+create or replace transient table banking.raw.dim_customers
+    
+    
+    
+    as (
+
+WITH latest AS (
+    SELECT
+        customer_id,
+        first_name,
+        last_name,
+        email,
+        created_at,
+        dbt_valid_from   AS effective_from,
+        dbt_valid_to     AS effective_to,
+        -- Logic to identify the active record
+        CASE WHEN dbt_valid_to IS NULL THEN TRUE ELSE FALSE END AS is_current
+    FROM banking.analytics.customers_snapshot
+)
+
+SELECT * FROM latest
+    )
+;
+
+
+  
