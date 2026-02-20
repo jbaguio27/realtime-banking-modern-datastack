@@ -1,0 +1,13 @@
+banking_dbt:
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('DBT_SNOWFLAKE_ACCOUNT', env_var('SNOWFLAKE_ACCOUNT', '')) }}"
+      user: "{{ env_var('DBT_SNOWFLAKE_USER', env_var('SNOWFLAKE_USER', '')) }}"
+      password: "{{ env_var('DBT_SNOWFLAKE_PASSWORD', env_var('SNOWFLAKE_PASSWORD', '')) }}"
+      role: "{{ env_var('DBT_SNOWFLAKE_ROLE', env_var('SNOWFLAKE_ROLE', 'ACCOUNTADMIN')) }}"
+      warehouse: "{{ env_var('DBT_SNOWFLAKE_WAREHOUSE', env_var('SNOWFLAKE_WAREHOUSE', 'COMPUTE_WH')) }}"
+      database: "{{ env_var('DBT_SNOWFLAKE_DB', env_var('SNOWFLAKE_DB', 'BANKING')) }}"
+      schema: "{{ env_var('DBT_SNOWFLAKE_SCHEMA', env_var('SNOWFLAKE_SCHEMA', 'ANALYTICS')) }}"
+      threads: "{{ env_var('DBT_THREADS', '4') | int }}"
+  target: dev

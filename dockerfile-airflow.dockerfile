@@ -1,24 +1,53 @@
 FROM apache/airflow:3.1.7
 
+ARG AIRFLOW_VERSION=3.1.7
+ARG PYTHON_MAJOR_MINOR=3.12
+ARG AIRFLOW_CONSTRAINTS_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_MAJOR_MINOR}.txt"
+
 USER root
 
-# 1. Install uv
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git libpq-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv globally
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# 2. Setup build directory
-WORKDIR /opt/airflow/custom_build
+# dbt is installed in an isolated venv used by scd_snapshots.py
+RUN uv venv /opt/airflow/dbt_venv \
+    && uv pip install --no-cache-dir \
+        --python /opt/airflow/dbt_venv/bin/python \
+        dbt-core==1.11.6 \
+        dbt-snowflake==1.11.2 \
+        "snowflake-connector-python[secure-local-storage]" \
+        boto3 \
+        python-dotenv \
+        psycopg2-binary \
+        faker \
+        kafka-python-ng \
+        pandas \
+        fastparquet \
+    && ln -sf /opt/airflow/dbt_venv/bin/dbt /usr/local/bin/dbt \
+    && chown -R airflow:0 /opt/airflow/dbt_venv
 
-# 3. Copy files (as root, which is default)
-COPY pyproject.toml README.md ./
-COPY banking_modern_datastack/ ./banking_modern_datastack/
+# Airflow runtime deps for PythonOperator DAGs (minio_to_snowflake_dag.py)
+# installed with Airflow constraints using uv.
+RUN uv pip install --system --no-cache-dir \
+    --constraint "${AIRFLOW_CONSTRAINTS_URL}" \
+    boto3 \
+    python-dotenv \
+    "snowflake-connector-python[secure-local-storage]"
 
-# 4. Install as ROOT
-# This ensures no "Permission Denied" when creating .egg-info or writing to site-packages
-RUN uv pip install --no-cache --system .
+# Runtime dependencies for local generator/consumer scripts executed by Airflow.
+RUN uv pip install --system --no-cache-dir \
+    psycopg2-binary \
+    faker \
+    kafka-python-ng \
+    pandas \
+    fastparquet
 
-# 5. Clean up the build directory to keep the image small
-WORKDIR /opt/airflow
-RUN rm -rf /opt/airflow/custom_build
-
-# 6. Switch to airflow user for security at runtime
 USER airflow
+
+ENV DBT_PROFILES_DIR=/opt/airflow/banking_dbt
+ENV PATH="/opt/airflow/dbt_venv/bin:/home/airflow/.local/bin:$PATH"

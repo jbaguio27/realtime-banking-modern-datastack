@@ -7,27 +7,20 @@ requires-python = ">=3.12"
 
 dependencies = [
   "apache-airflow==3.1.7",
-
-  # Databases and Config
   "psycopg2-binary~=2.9.9",
   "pyyaml~=6.0.1",
   "python-dotenv~=1.0.1",
   "requests~=2.32.0",
-  
-  # AWS SDKs
   "boto3~=1.34.0",
   "botocore~=1.34.0",
-
-  # Data tools
   "pandas>=2.2.0,<2.3.0",
   "fastparquet>=2024.5.0",
   "dbt-core~=1.9.0",
   "dbt-snowflake~=1.9.0",
-
-  # Utilities (Updated for Python 3.12 compatibility)
   "faker",
-  "kafka-python-ng", # Use -ng for Python 3.12 support
-  "cffi"
+  "kafka-python-ng",
+  "cffi",
+  "kafka-python>=2.3.0",
 ]
 
 [tool.setuptools]

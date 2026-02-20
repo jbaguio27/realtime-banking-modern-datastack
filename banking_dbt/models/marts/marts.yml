@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: dim_accounts
+    columns:
+      - name: account_id
+        tests:
+          - unique:
+              config:
+                tags: ["critical"]
+          - not_null:
+              config:
+                tags: ["critical"]
+
+  - name: fact_transactions
+    columns:
+      - name: transaction_id
+        tests:
+          - unique:
+              config:
+                tags: ["critical"]
+          - not_null:
+              config:
+                tags: ["critical"]
+      - name: account_id
+        description: "Integrity check: Transaction must belong to an existing account"
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_accounts')
+                field: account_id
+              config:
+                tags: ["quality"]
+                severity: warn
