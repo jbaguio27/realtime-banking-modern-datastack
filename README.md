@@ -1,4 +1,4 @@
-# Realtime-Banking-Modern-Datastack
+# 🏦 Realtime-Banking-Modern-Datastack
 
 End-to-end local data stack for a banking use case using Docker services and Airflow orchestration.  
 It generates OLTP data, streams CDC events, lands parquet files, builds dbt models in Snowflake, and prepares Superset datasets/views.
@@ -79,18 +79,11 @@ flowchart LR
 
 ### Apache Superset Dashboard Screenshots
 
-![Transaction Risk (The "Trend" View)](docs/images/transaction-risk.jpg)
-![Customer Segments (The "Snapshot" View)](docs/images/customer-segments.jpg)
-![Liquidity Risk (The "Warning" View)](docs/images/liquidity-risk.jpg)
-
+![Dashboard Overview](docs/images/transaction-risk.jpg)
 
 ### Snowflake Data Preview
 
-`docs/images/snowflake-data-preview.png`
-
-![Snowflake data preview](docs/images/snowflake-data-preview.png)
-
-Hint: worksheet preview of key tables/views (for example `ANALYTICS.DIM_ACCOUNTS` or BI views).
+<img width="959" height="910" alt="image" src="https://github.com/user-attachments/assets/d65e064e-ad84-46f5-a767-7bb8f8ed5359" />
 
 ## Tech Stack
 
