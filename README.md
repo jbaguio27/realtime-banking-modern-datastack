@@ -77,13 +77,12 @@ flowchart LR
 
 <img width="1603" height="689" alt="image" src="https://github.com/user-attachments/assets/79969c35-750f-45e6-b4c0-d62d02c52a3f" />
 
-### Superset Dashboard
+### Apache Superset Dashboard Screenshots
 
-`docs/images/superset-dashboard.png`
+![Transaction Risk (The "Trend" View)](docs/images/transaction-risk.jpg)
+![Customer Segments (The "Snapshot" View)](docs/images/customer-segments.jpg)
+![Liquidity Risk (The "Warning" View)](docs/images/liquidity-risk.jpg)
 
-![Superset Dashboard](docs/images/superset-dashboard.png)
-
-Hint: dashboard page with BP1/BP2/BP3 visuals.
 
 ### Snowflake Data Preview
 
