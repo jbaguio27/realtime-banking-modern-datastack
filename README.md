@@ -1,26 +1,26 @@
-# realtime-banking-modern-datastack
+# Realtime-Banking-Modern-Datastack
 
 End-to-end local data stack for a banking use case using Docker services and Airflow orchestration.  
 It generates OLTP data, streams CDC events, lands parquet files, builds dbt models in Snowflake, and prepares Superset datasets/views.
 
 ## Table of contents
 
-- [What this repo does](#what-this-repo-does)
-- [Architecture and data flow](#architecture-and-data-flow)
-- [Tech stack](#tech-stack)
-- [Possible tools to confirm](#possible-tools-to-confirm)
-- [Project structure](#project-structure)
-- [Setup and run](#setup-and-run)
-- [Environment variables](#environment-variables)
-- [Pipeline or app usage](#pipeline-or-app-usage)
-- [Data model](#data-model)
-- [Data quality and tests](#data-quality-and-tests)
+- [What this repo does?](#what-this-repo-does)
+- [Architecture and Data Flow](#architecture-and-data-flow)
+- [Tech Stack](#tech-stack)
+- [Possible Tools to Confirm](#possible-tools-to-confirm)
+- [Project Structure](#project-structure)
+- [Setup and Run](#setup-and-run)
+- [Environment Variables](#environment-variables)
+- [Pipeline or App Usage](#pipeline-or-app-usage)
+- [Data Model](#data-model)
+- [Data Quality and Tests](#data-quality-and-tests)
 - [CI](#ci)
-- [Documentation and screenshots to add](#documentation-and-screenshots-to-add)
+- [Documentation and Screenshots to Add](#documentation-and-screenshots-to-add)
 - [Troubleshooting](#troubleshooting)
 - [Roadmap](#roadmap)
 
-## What this repo does
+## What this Repo Does?
 
 - Runs a local stack with Docker Compose (`docker-compose.yaml`).
 - Runs Apache Airflow DAGs from [`docker/dags`](docker/dags).
@@ -32,7 +32,7 @@ It generates OLTP data, streams CDC events, lands parquet files, builds dbt mode
 - Creates Snowflake BI views and provisions Superset datasets via DAG [`docker/dags/superset_business_automation.py`](docker/dags/superset_business_automation.py).
 - Publishes Docker images to GHCR with GitHub Actions (`.github/workflows/cd.yml`).
 
-## Architecture and data flow
+## Architecture and Data Flow
 
 ```mermaid
 flowchart LR
@@ -57,49 +57,35 @@ flowchart LR
   AF --> SUP
   SUP --> SNF
 ```
+### Data Architecture Sketch
 
-### Image placeholder
+<img width="1792" height="864" alt="image" src="https://github.com/user-attachments/assets/560d4531-9663-4a47-91db-56b5fd718fd4" />
 
-Image placeholder: `docs/images/architecture.png`  
-Hint: add a single diagram that shows Postgres -> Debezium/Kafka -> MinIO -> Snowflake -> dbt -> Superset, with Airflow orchestrating the steps.
+### Airflow DAG Lineage
 
-## Image placeholders for your project
+<img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/85f89270-b695-4011-a3bd-fd83f0c356cb" />
 
-Use this section to drop your screenshots/diagrams as you build project documentation.
+<img width="1919" height="955" alt="image" src="https://github.com/user-attachments/assets/9bfafacc-0ce0-46cf-9ace-5a3e0af4a7e6" />
 
-### Data architecture sketch
+<img width="1919" height="952" alt="image" src="https://github.com/user-attachments/assets/ff578e6f-ce07-4949-874a-ffbf2c82a41a" />
 
-`docs/images/architecture-sketch.png`
+<img width="1919" height="957" alt="image" src="https://github.com/user-attachments/assets/56c49d36-4d66-4b90-823c-ca3e1f6ca10a" />
 
-![Data architecture sketch](docs/images/architecture-sketch.png)
+<img width="1919" height="952" alt="image" src="https://github.com/user-attachments/assets/e8fa772a-afb0-42c6-a87e-5a6520408f6f" />
 
-Hint: your own end-to-end sketch of services, data hops, and orchestration.
+### DBT Lineage
 
-### Airflow DAG lineage
+<img width="1603" height="689" alt="image" src="https://github.com/user-attachments/assets/79969c35-750f-45e6-b4c0-d62d02c52a3f" />
 
-`docs/images/airflow-dag-lineage.png`
-
-![Airflow DAG lineage](docs/images/airflow-dag-lineage.png)
-
-Hint: Airflow Graph view for `banking_end_to_end_flow` with child DAG trigger points visible.
-
-### dbt lineage
-
-`docs/images/dbt-lineage.png`
-
-![dbt lineage](docs/images/dbt-lineage.png)
-
-Hint: dbt lineage graph showing `stg_*`, snapshots, dimensions, and facts.
-
-### Superset dashboard
+### Superset Dashboard
 
 `docs/images/superset-dashboard.png`
 
-![Superset dashboard](docs/images/superset-dashboard.png)
+![Superset Dashboard](docs/images/superset-dashboard.png)
 
 Hint: dashboard page with BP1/BP2/BP3 visuals.
 
-### Snowflake data preview
+### Snowflake Data Preview
 
 `docs/images/snowflake-data-preview.png`
 
@@ -107,7 +93,7 @@ Hint: dashboard page with BP1/BP2/BP3 visuals.
 
 Hint: worksheet preview of key tables/views (for example `ANALYTICS.DIM_ACCOUNTS` or BI views).
 
-## Tech stack
+## Tech Stack
 
 | Tool | Role in this repo | Verified from |
 |---|---|---|
@@ -124,12 +110,12 @@ Hint: worksheet preview of key tables/views (for example `ANALYTICS.DIM_ACCOUNTS
 | Python 3.12 | Script runtime and tests | [`pyproject.toml`](pyproject.toml), `.github/workflows/ci.yml` |
 | GitHub Actions | CI and container CD | [`.github/workflows/ci.yml`](.github/workflows/ci.yml), [`.github/workflows/cd.yml`](.github/workflows/cd.yml) |
 
-## Possible tools to confirm
+## Possible Tools to Confirm
 
 - TODO: confirm if runtime data directories in `docker/minio/data` and `docker/postgres/data` are intended to be committed in this branch snapshot.
 - TODO: confirm if `docker/postgres/schema.sql` is executed automatically or needs a manual init step.
 
-## Project structure
+## Project Structure
 
 ```text
 .
@@ -179,16 +165,16 @@ Hint: worksheet preview of key tables/views (for example `ANALYTICS.DIM_ACCOUNTS
       +- test_generate_and_post_connector_helpers.py
 ```
 
-## Setup and run
+## Setup and Run
 
 ### Prerequisites
 
 - Docker and Docker Compose (required by [`docker-compose.yaml`](docker-compose.yaml)).
 - Python 3.12 (required by [`pyproject.toml`](pyproject.toml)) if you run scripts/tests outside containers.
 
-### Quick start
+### Quick Start
 
-- Copy env templates:
+- Copy env Templates:
 ```powershell
 Copy-Item .env.example .env
 Copy-Item data-generator/.env.example data-generator/.env
@@ -197,24 +183,24 @@ Copy-Item kafka-debezium/.env.example kafka-debezium/.env
 Copy-Item docker/dags/.env.example docker/dags/.env
 ```
 
-- Start stack:
+- Start Stack:
 ```powershell
 docker compose down
 docker compose up -d --build
 docker compose ps
 ```
 
-- Validate Airflow DAG availability:
+- Validate Airflow DAG Availability:
 ```powershell
 docker compose exec airflow-scheduler airflow dags list
 ```
 
-- Trigger parent pipeline:
+- Trigger Parent Pipeline:
 ```powershell
 docker compose exec airflow-scheduler airflow dags trigger banking_end_to_end_flow
 ```
 
-## Environment variables
+## Environment Variables
 
 This repo uses multiple `.env` scopes. Secrets are not committed by default (`.gitignore` ignores `.env*` except `.env.example`).
 
@@ -236,14 +222,14 @@ SUPERSET_ADMIN_LASTNAME=Admin
 SUPERSET_ADMIN_EMAIL=admin@example.com
 ```
 
-### Component env templates
+### Component env Templates
 
 - `data-generator/.env.example`: Postgres connection + `GEN_*` profile knobs.
 - `consumer/.env.example`: Kafka + MinIO consumer settings.
 - `kafka-debezium/.env.example`: connector script settings.
 - `docker/dags/.env.example`: MinIO, Snowflake, and Superset DAG runtime settings.
 
-### Additional variables referenced in code/compose
+### Additional Variables Referenced in Code/compose
 
 These are referenced in repo code or compose interpolation and may be optional defaults:
 
@@ -258,19 +244,19 @@ These are referenced in repo code or compose interpolation and may be optional d
 - `DEBEZIUM_CONNECTOR_NAME`
 - `DEBEZIUM_CONNECT_URL`
 
-### Secrets handling
+### Secrets Handling
 
 - `banking_dbt/profiles.yml` reads Snowflake credentials from env vars only.
 - CI includes guards against hardcoded dbt credentials in `profiles.yml`.
 - `.gitignore` excludes `.env` files and common key/cert extensions.
 
-## Pipeline or app usage
+## Pipeline or App usage
 
 ### Main orchestrated pipeline (Airflow)
 
 Parent DAG: `banking_end_to_end_flow` in [`docker/dags/banking_end_to_end_flow.py`](docker/dags/banking_end_to_end_flow.py)
 
-Execution chain:
+Execution Chain:
 
 1. `wait_for_kafka`
 2. `wait_for_debezium_connect`
@@ -282,32 +268,32 @@ Execution chain:
 8. `trigger_dbt_pipeline` (child DAG: `banking_realtime_dbt`)
 9. `trigger_superset_automation` (child DAG: `superset_business_automation`)
 
-Trigger command:
+Trigger Command:
 
 ```powershell
 docker compose exec airflow-scheduler airflow dags trigger banking_end_to_end_flow
 ```
 
-### Script entrypoints
+### Script Entrypoints
 
-- Data generator:
+- Data Generator:
 ```powershell
 python data-generator/faker_generator.py --once --iterations 1
 ```
 
-- Kafka consumer to MinIO:
+- Kafka Consumer to MinIO:
 ```powershell
 python consumer/kafka_to_minio.py --max-runtime-seconds 300 --max-idle-cycles 3
 ```
 
-- Debezium connector helper:
+- Debezium Connector Helper:
 ```powershell
 python kafka-debezium/generate_and_post_connector.py
 ```
 
-## Data model
+## Data Model
 
-### OLTP source schema
+### OLTP Source Schema
 
 Defined in [`docker/postgres/schema.sql`](docker/postgres/schema.sql):
 
@@ -315,7 +301,7 @@ Defined in [`docker/postgres/schema.sql`](docker/postgres/schema.sql):
 - `accounts`
 - `transactions`
 
-### dbt raw sources
+### DBT Raw Sources
 
 Defined in [`banking_dbt/models/sources.yml`](banking_dbt/models/sources.yml):
 
@@ -323,9 +309,9 @@ Defined in [`banking_dbt/models/sources.yml`](banking_dbt/models/sources.yml):
 - `BANKING.RAW.accounts`
 - `BANKING.RAW.transactions`
 
-### dbt models
+### DBT Models
 
-- Staging views:
+- Staging Views:
   - `stg_customers`
   - `stg_accounts`
   - `stg_transactions`
@@ -337,7 +323,7 @@ Defined in [`banking_dbt/models/sources.yml`](banking_dbt/models/sources.yml):
   - `dim_accounts` (table)
   - `fact_transactions` (incremental)
 
-### Superset BI views created by DAG
+### Superset BI Views Created by DAG
 
 From [`docker/dags/superset_business_automation.py`](docker/dags/superset_business_automation.py):
 
@@ -345,9 +331,9 @@ From [`docker/dags/superset_business_automation.py`](docker/dags/superset_busine
 - `ANALYTICS.BI_BP2_CUSTOMER_VALUE_SEGMENTS`
 - `ANALYTICS.BI_BP3_LIQUIDITY_RISK_ACCOUNTS`
 
-## Data quality and tests
+## Data Quality and Tests
 
-### Unit tests (Python helpers)
+### Unit Tests (Python helpers)
 
 Run:
 
@@ -360,7 +346,7 @@ Coverage in repo:
 - [`tests/unit/test_faker_generator_helpers.py`](tests/unit/test_faker_generator_helpers.py)
 - [`tests/unit/test_generate_and_post_connector_helpers.py`](tests/unit/test_generate_and_post_connector_helpers.py)
 
-### dbt tests
+### DBT Tests
 
 Defined in [`banking_dbt/tests`](banking_dbt/tests) and model YAML tests.
 
@@ -376,7 +362,7 @@ Run via DAG (`banking_realtime_dbt`) steps:
 
 ## CI
 
-### CI workflow
+### CI Workflow
 
 File: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 
@@ -388,7 +374,7 @@ Checks:
 - Guardrails against hardcoded dbt credentials.
 - Guardrails against committed runtime state paths.
 
-### CD workflow
+### CD Workflow
 
 File: [`.github/workflows/cd.yml`](.github/workflows/cd.yml)
 
@@ -407,7 +393,7 @@ Required secrets referenced:
 
 - `GHCR_TOKEN` (used for GHCR login in workflow)
 
-### GitHub repository settings
+### GitHub Repository Settings
 
 Configure these settings in GitHub for stable CI/CD:
 
@@ -416,7 +402,7 @@ Configure these settings in GitHub for stable CI/CD:
 - Enable `Require a pull request before merging`.
 - Enable `Require status checks to pass before merging` and select CI checks from workflow `CI` (for example job `validate`).
 
-### Verify published images
+### Verify Published Images
 
 After CD succeeds, confirm package tags exist in GHCR:
 
