@@ -20,6 +20,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Prepare env file for compose validation
+        run: cp .env.example .env
+
       - name: Validate docker compose
         run: docker compose -f docker-compose.yaml config > /dev/null
 
