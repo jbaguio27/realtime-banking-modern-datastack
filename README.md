@@ -405,23 +405,6 @@ GitHub Packages page:
 
 - `https://github.com/users/jbaguio27/packages`
 
-## Documentation and screenshots to add
-
-- [ ] Architecture diagram  
-  Hint: end-to-end component graph with data contracts and ports.
-- [ ] Airflow DAG screenshot  
-  Hint: Graph view for `banking_end_to_end_flow`.
-- [ ] dbt lineage screenshot  
-  Hint: `stg_*` -> snapshots -> dims/fact lineage.
-- [ ] Data dictionary or KPI doc  
-  Hint: explain BI view columns and KPI formulas.
-- [ ] Data quality report screenshot  
-  Hint: dbt test output or run summary from `run_results.json`.
-- [ ] CI run screenshot  
-  Hint: successful GitHub Actions run showing CI and CD.
-- [ ] BI dashboard screenshot  
-  Hint: Superset charts using BI BP1/BP2/BP3 views.
-
 ## Troubleshooting
 
 - `airflow dags list` does not show expected DAGs  
